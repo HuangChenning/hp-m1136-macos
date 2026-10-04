@@ -1,69 +1,122 @@
-# HP M1136 macOS Compatibility Installer
+# HP M1136 for macOS
 
-复用 Apple 官方 HP 5.1.1 驱动包中的 M1130/M1136 组件，绕开旧安装器的系统版本限制。不是重新实现的原生 ARM 驱动；Intel 64 位组件在 Apple Silicon 上需要 Rosetta。打印与扫描已在一台 Apple Silicon Mac、macOS 26.6.1 上实机验证成功。其他机器和系统版本尚未验证。
+**USB printing and scanning for an HP LaserJet M1136 MFP on modern macOS.**
 
-## DMG 安装（测试版）
+English · [简体中文](README.zh-CN.md)
 
-从 [GitHub Releases](https://github.com/HuangChenning/hp-m1136-macos/releases) 下载 DMG，打开后双击 `Install.command`。终端会从 Apple 官方下载约 558 MiB 驱动包并验证固定校验值，再自动识别 USB 打印机、请求管理员密码、安装打印和扫描组件。Apple Silicon 需要先安装 Rosetta。
+[Download the beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1) · [Release notes](RELEASE_NOTES.md) · [Report an issue](https://github.com/HuangChenning/hp-m1136-macos/issues)
 
-双击 `Uninstall.command` 卸载。已安装组件时，工具会拒绝覆盖；请先卸载本工具拥有的组件。DMG 未签名、未公证，浏览器下载后的 Gatekeeper 行为尚未验证。合并安装流程仍需在干净的 Mac 上验证；详细限制见 `THIRD_PARTY.md`。
+## Overview
 
-## 本地构建
+A community compatibility installer that reuses the original HP printing and scanning components distributed by Apple. It is not an official HP release or a newly implemented native ARM driver.
 
-执行 `bash build-dmg.sh`，在 `dist/` 生成 DMG 和 SHA-256 文件。发布包只含本项目脚本、说明与测试页，不包含 HP 二进制组件。
+> **Beta:** the DMG is unsigned and unnotarized. The individual components work on the tested Mac; the combined installer has not been tested end to end on a clean Mac.
 
-## 手动安装：准备
+## Verified results
 
-从 [Apple 官方页面](https://support.apple.com/en-us/106385) 下载 HP 5.1.1 驱动镜像。该包不受官方支持用于新 macOS，且当前系统报告旧包签名无效。本工具不更改系统安全设置，不运行原安装器，不重新分发 HP 二进制文件。
+Confirmed by the printer owner on **one Apple Silicon Mac running macOS 26.6.1**, connected by USB:
 
-只读挂载镜像并解包（目标目录必须不存在）：
+| Function | Observed result |
+| --- | --- |
+| Printing | Test page printed correctly, including English and Chinese text |
+| Paper feed | Automatic feed worked with paper already in the tray |
+| Scanning | macOS Image Capture scanned and saved a file successfully |
+
+Other Macs and macOS versions are unverified. A completed print queue alone does not prove that the page printed correctly.
+
+## How it works
+
+The installer downloads Apple's original HP 5.1.1 package (about **558 MiB**), verifies a pinned SHA-256, and extracts the M1136 components locally. It detects the connected printer's USB address and installs:
+
+- A separate **HP M1136 (Compatibility)** print queue, with **A4** and **automatic paper feed** as defaults. Your existing default printer is unchanged.
+- The M1130/M1210 ICA scanner component, used by macOS **Image Capture**.
+
+The repository and release DMG contain our scripts, documentation, and a test page. **HP binaries are not bundled.** Intel components require **Rosetta on Apple Silicon**.
+
+## Install and first use
+
+### Before you start
+
+Connect exactly one powered-on M1136 by USB, install Rosetta if using Apple Silicon, and have an administrator password available. Internet access is required for the Apple download. Existing components are not overwritten.
+
+### Install from the DMG
+
+1. Download and open the [beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1).
+2. Double-click `Install.command`. It opens Terminal; it is not a graphical setup wizard.
+3. Wait for the download and verification, then enter your administrator password when prompted.
+4. Reconnect USB after installation. If the scanner is not detected, restart the Mac.
+
+If macOS blocks the downloaded file or reports an error, record the exact message and [open an issue](https://github.com/HuangChenning/hp-m1136-macos/issues). Browser-download Gatekeeper behavior has not been verified; the scripts do not change system security settings.
+
+### Print a test page
+
+Choose **HP M1136 (Compatibility)** in an application's print dialog, or run this from the repository or mounted DMG directory:
+
+```sh
+lp -d HP_M1136_Compat -o PageSize=A4 -o InputSlot=Auto test-page.pdf
+lpstat -p HP_M1136_Compat
+```
+
+Check the physical page for readable English and Chinese text. For everyday printing, use the same queue.
+
+### Scan a document
+
+Open **Image Capture**, select the M1136, and place the document face down on the scanner glass. Start with an overview, then try a **150 dpi grayscale scan** saved as PDF. Open the saved file and check that the content is complete.
+
+## Troubleshooting
+
+| Symptom | Next step |
+| --- | --- |
+| `Manual Feed` despite paper in the tray | For an earlier installation, run `sudo bash ./install.sh fix-feed` from the repository or DMG. Cancel affected jobs and resubmit; jobs retain their original paper-source setting. |
+| Scanner missing from Image Capture | Reconnect USB, quit and reopen Image Capture, then restart the Mac if needed. |
+| Existing components detected | Use this tool's uninstaller first. It does not overwrite unrelated drivers. |
+| Security prompt or scan error | Report the exact message, Mac architecture, macOS version, and installation method. |
+
+## Uninstall
+
+Double-click `Uninstall.command` in the DMG. Alternatively, from the repository:
+
+```sh
+sudo bash ./install-scanner.sh uninstall
+sudo bash ./install.sh uninstall
+```
+
+Only the queue and components marked as owned by this tool are removed. The two components can also be removed independently.
+
+## Build from source
+
+```sh
+git clone https://github.com/HuangChenning/hp-m1136-macos.git
+cd hp-m1136-macos
+bash build-dmg.sh
+```
+
+The build produces a DMG and SHA-256 file under `dist/`. Building the DMG does not install drivers.
+
+<details>
+<summary>Advanced: manually install the original components</summary>
+
+Download HP 5.1.1 from [Apple's official page](https://support.apple.com/en-us/106385). The following extraction directories must not already exist. Adjust the download path if necessary:
 
 ```sh
 hdiutil attach ~/Downloads/HewlettPackardPrinterDrivers.dmg -readonly -nobrowse -mountpoint /tmp/hp-driver-volume
 pkgutil --expand-full /tmp/hp-driver-volume/HewlettPackardPrinterDrivers.pkg /tmp/hp-expanded
+lpinfo -v
 ```
 
-解包后的 payload 通常是 `/tmp/hp-expanded/HewlettPackardPrinterDrivers.pkg/Payload`。
-
-## 安装与验证
-
-连接并打开打印机，用 `lpinfo -v` 获取包含 M1136 的完整 `usb://` 地址，然后执行：
+Use the complete M1136 `usb://` address reported by `lpinfo -v` in place of `USB_URI`, then run these from the repository:
 
 ```sh
-sudo bash ./install.sh install '/tmp/hp-expanded/HewlettPackardPrinterDrivers.pkg/Payload' 'usb://地址'
-lp -d HP_M1136_Compat your-document.pdf
-lpstat -p HP_M1136_Compat
-```
-
-在应用的打印窗口中选择 **HP M1136 (Compatibility)**。默认 A4，默认打印机不变。请确认实际出纸、中文内容和多页顺序；任务离开队列不等于打印结果已验证。
-
-默认使用自动进纸。旧版工具继承了 HP PPD 的手动进纸默认值，会触发 `Manual Feed` 提示。已安装旧版本时，可执行 `sudo bash ./install.sh fix-feed` 更新队列；原有任务须取消并重新提交，因为任务保留提交时的纸源设置。
-
-仓库中的 `test-page.pdf` 可用于一页中英文打印检查。已验证：脚本语法、调整后的 PPD、系统文本转 PDF 和光栅流程；HP 过滤器从标准输入生成了非空打印数据。随后经实机验证，测试页正常出纸，中英文正常。
-
-只复制 HP 光栅过滤器 bundle 和调整路径后的 PPD 到 `/Library/Printers/hp-m1136-compat`。不安装旧 HP 工具或其他型号的驱动。
-
-## 卸载
-
-```sh
-sudo bash ./install.sh uninstall
-```
-
-仅删除本工具的打印队列和有所有权标记的独立目录。安装失败后也可执行此命令清理。
-
-## 扫描适配
-
-独立安装同一 Apple 官方包内的 `HP M1130_M1210 Scanner.app`，不安装其他型号扫描驱动，不更改打印配置。其设备匹配表包含 M1136（USB VID `03f0`、PID `042a`），组件已在这台 Mac 上通过“图像捕捉”完成扫描和保存文件。
-
-```sh
+sudo bash ./install.sh install '/tmp/hp-expanded/HewlettPackardPrinterDrivers.pkg/Payload' 'USB_URI'
 sudo bash ./install-scanner.sh install '/tmp/hp-expanded/HewlettPackardPrinterDrivers.pkg/Payload'
-open -a 'Image Capture'
 ```
 
-安装后拔插 USB，退出并重开“图像捕捉”。将文档正面朝下放到扫描玻璃上，选择 M1136，先尝试预览，再以 150 dpi、灰度扫描并保存 PDF。验证文件能打开且内容完整。若不显示设备，重启 Mac 后重试；如出现安全提示或扫描错误，记录原文以便继续诊断。脚本不修改 Gatekeeper 或重新签名旧组件。
+Printing components go into `/Library/Printers/hp-m1136-compat`. The scanner goes into `/Library/Image Capture/Devices/HP M1130_M1210 Scanner.app`. Other model drivers and old HP utilities are not installed.
 
-扫描组件独立卸载：
+</details>
 
-```sh
-sudo bash ./install-scanner.sh uninstall
-```
+## Limitations and third-party terms
+
+Apple does not support this old package on modern macOS, and the tested system reports its old signature as invalid. Matching the download checksum does not replace signature validation. The tool does not remove quarantine attributes, re-sign HP components, or run the original installer.
+
+HP components remain subject to their applicable terms. See [THIRD_PARTY.md](THIRD_PARTY.md) for provenance and limitations. Future macOS updates may break compatibility with the legacy components or CUPS drivers.
