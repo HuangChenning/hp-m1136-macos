@@ -4,7 +4,7 @@
 
 [English](README.md) · 简体中文
 
-[下载测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1) · [发布说明（英文）](RELEASE_NOTES.md) · [反馈问题](https://github.com/HuangChenning/hp-m1136-macos/issues)
+[下载测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2) · [发布说明（英文）](RELEASE_NOTES.md) · [反馈问题](https://github.com/HuangChenning/hp-m1136-macos/issues)
 
 ## 项目概述
 
@@ -41,7 +41,7 @@
 
 ### 从 DMG 安装
 
-1. 下载并打开 [测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1)。
+1. 下载并打开 [测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2)。
 2. 双击 `Install.command`。它会打开终端，并非图形安装向导。
 3. 等待下载与校验完成，按提示输入管理员密码。
 4. 安装后拔插 USB；如果扫描仪未出现，重启 Mac。

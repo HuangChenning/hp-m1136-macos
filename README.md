@@ -4,7 +4,7 @@
 
 English · [简体中文](README.zh-CN.md)
 
-[Download the beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1) · [Release notes](RELEASE_NOTES.md) · [Report an issue](https://github.com/HuangChenning/hp-m1136-macos/issues)
+[Download the beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2) · [Release notes](RELEASE_NOTES.md) · [Report an issue](https://github.com/HuangChenning/hp-m1136-macos/issues)
 
 ## Overview
 
@@ -41,7 +41,7 @@ Connect exactly one powered-on M1136 by USB, install Rosetta if using Apple Sili
 
 ### Install from the DMG
 
-1. Download and open the [beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.1).
+1. Download and open the [beta DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2).
 2. Double-click `Install.command`. It opens Terminal; it is not a graphical setup wizard.
 3. Wait for the download and verification, then enter your administrator password when prompted.
 4. Reconnect USB after installation. If the scanner is not detected, restart the Mac.
