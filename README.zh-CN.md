@@ -4,13 +4,13 @@
 
 [English](README.md) · 简体中文
 
-[下载测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2) · [发布说明（英文）](RELEASE_NOTES.md) · [反馈问题](https://github.com/HuangChenning/hp-m1136-macos/issues)
+[下载 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0) · [发布说明（英文）](RELEASE_NOTES.md) · [反馈问题](https://github.com/HuangChenning/hp-m1136-macos/issues)
 
 ## 项目概述
 
 这是一个社区兼容安装工具，复用 Apple 分发的原版 HP 打印和扫描组件。它不是 HP 官方版本，也不是重新实现的原生 ARM 驱动。
 
-> **测试版：** DMG 尚未签名和公证。独立组件已在测试机器上正常使用；统一安装入口尚未在干净的 Mac 上完成端到端验证。
+> **实验性版本：** DMG 尚未签名和公证。独立组件已在测试机器上正常使用；统一安装入口尚未在干净的 Mac 上完成端到端验证。
 
 ## 实机验证效果
 
@@ -41,7 +41,7 @@
 
 ### 从 DMG 安装
 
-1. 下载并打开 [测试版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0-beta.2)。
+1. 下载并打开 [发布版 DMG](https://github.com/HuangChenning/hp-m1136-macos/releases/tag/v0.1.0)。
 2. 双击 `Install.command`。它会打开终端，并非图形安装向导。
 3. 等待下载与校验完成，按提示输入管理员密码。
 4. 安装后拔插 USB；如果扫描仪未出现，重启 Mac。
