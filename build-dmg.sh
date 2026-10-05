@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")"
-version=0.1.0
+version=0.1.1-rc.1
 stage=$(mktemp -d /private/tmp/hp-m1136-release.XXXXXX)
 trap 'rm -rf "$stage"' EXIT
 mkdir -p dist

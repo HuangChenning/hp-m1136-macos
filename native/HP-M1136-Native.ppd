@@ -1,0 +1,38 @@
+*PPD-Adobe: "4.3"
+*FormatVersion: "4.3"
+*FileVersion: "0.1"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PCFileName: "M1136NAT.PPD"
+*Manufacturer: "HP"
+*Product: "(HP LaserJet Professional M1136 MFP)"
+*ModelName: "HP LaserJet Professional M1136 MFP"
+*ShortNickName: "HP M1136 Native"
+*NickName: "HP M1136 Native Experimental"
+*PSVersion: "(3010.000) 0"
+*LanguageLevel: "3"
+*ColorDevice: False
+*DefaultColorSpace: Gray
+*FileSystem: False
+*Throughput: "20"
+*cupsFilter: "application/vnd.cups-raster 0 /Library/Printers/hp-m1136-native/rastertozjs"
+*OpenUI *PageSize/Page Size: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: A4
+*PageSize A4/A4: "<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+*OpenUI *PageRegion/Page Region: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: A4
+*PageRegion A4/A4: "<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageRegion
+*DefaultImageableArea: A4
+*ImageableArea A4/A4: "12 12 583 830"
+*DefaultPaperDimension: A4
+*PaperDimension A4/A4: "595 842"
+*HWMargins: 12 12 12 12
+*OpenUI *Resolution/Resolution: PickOne
+*OrderDependency: 10 AnySetup *Resolution
+*DefaultResolution: 600dpi
+*Resolution 600dpi/600 dpi: "<</HWResolution[600 600]/cupsBitsPerColor 8/cupsColorSpace 0>>setpagedevice"
+*CloseUI: *Resolution

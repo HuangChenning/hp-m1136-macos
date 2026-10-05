@@ -1,0 +1,7 @@
+#!/bin/bash
+# One-page experimental CUPS filter. Only A4 600 dpi grayscale is supported.
+set -euo pipefail
+cd "$(dirname "$0")"
+[[ $# -ge 5 ]] || { echo 'Usage: rastertozjs job-id user title copies options [file]' >&2; exit 1; }
+if [[ $# -ge 6 ]]; then exec < "$6"; fi
+./cups2pbm | ./foo2xqx -r600x600 -g4960x7016 -p9 -T3 -m1 -s7 -d1 -n1

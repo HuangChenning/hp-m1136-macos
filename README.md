@@ -8,7 +8,7 @@ English · [简体中文](README.zh-CN.md)
 
 ## Overview
 
-A community compatibility installer that reuses the original HP printing and scanning components distributed by Apple. It is not an official HP release or a newly implemented native ARM driver.
+A community compatibility installer that reuses the original HP printing and scanning components distributed by Apple. It is not an official HP release. The released DMG still uses Intel components; the repository also contains a separate [experimental native ARM printing path](native/README.md) that has printed one CUPS test job on the owner's Mac. Native scanning is not implemented.
 
 > **Experimental:** the DMG is unsigned and unnotarized. The individual components work on the tested Mac; the combined installer has not been tested end to end on a clean Mac.
 
@@ -26,12 +26,12 @@ Other Macs and macOS versions are unverified. A completed print queue alone does
 
 ## How it works
 
-The installer downloads Apple's original HP 5.1.1 package (about **558 MiB**), verifies a pinned SHA-256, and extracts the M1136 components locally. It detects the connected printer's USB address and installs:
+The installer downloads Apple's original HP 5.1.1 package (about **558 MiB**), verifies a pinned SHA-256, and extracts the M1136 components locally. It checks for exactly one connected M1136 before the download, checks its USB address again afterward, and installs:
 
 - A separate **HP M1136 (Compatibility)** print queue, with **A4** and **automatic paper feed** as defaults. Your existing default printer is unchanged.
 - The M1130/M1210 ICA scanner component, used by macOS **Image Capture**.
 
-The repository and release DMG contain our scripts, documentation, and a test page. **HP binaries are not bundled.** Intel components require **Rosetta on Apple Silicon**.
+The release DMG contains our scripts, documentation, and a test page. The repository also includes attributed GPL source for the experimental native encoder. **HP binaries are not bundled.** The released Intel components require **Rosetta on Apple Silicon**.
 
 ## Install and first use
 
